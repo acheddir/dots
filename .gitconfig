@@ -1,0 +1,10 @@
+[user]
+	name = Abderrahman Cheddir
+	email = acheddir@outlook.fr
+	signingkey = A0293749C05DF053
+[init]
+	defaultBranch = main
+[color]
+	ui = auto
+[commit]
+	gpgsign = true
