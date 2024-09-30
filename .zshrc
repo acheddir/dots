@@ -95,3 +95,5 @@ export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
 
 export GPG_TTY=$(tty)
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/github_com_ed25519
