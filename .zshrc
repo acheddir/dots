@@ -109,6 +109,5 @@ export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
 export GPG_TTY=$(tty)
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/github_com_ed25519
-POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+eval "$(ssh-agent -s)" > /dev/null 2>&1
+ssh-add ~/.ssh/github_com_ed25519 > /dev/null 2>&1
