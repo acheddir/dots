@@ -1,3 +1,5 @@
+# Add deno completions to search path
+if [[ ":$FPATH:" != *":/home/acheddir/.zsh/completions:"* ]]; then export FPATH="/home/acheddir/.zsh/completions:$FPATH"; fi
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -92,6 +94,7 @@ alias c='clear'
 alias d='docker'
 alias vi='nvim'
 alias vim='nvim'
+alias ompu='sudo oh-my-posh upgrade'
 
 # Shell integrations
 eval "$(fzf --zsh)"
@@ -108,6 +111,22 @@ fi
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(goenv init -)"
+
+# go
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOPATH/bin
+
 export GPG_TTY=$(tty)
 eval "$(ssh-agent -s)" > /dev/null 2>&1
 ssh-add ~/.ssh/github_com_ed25519 > /dev/null 2>&1
+
+. "/home/acheddir/.deno/env"
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
+
+# Exclude /mnt/c executables from PATH
+export PATH=`echo $PATH | tr ':' '\n' | awk '($0!~/mnt\/c/) {print} ' | tr '\n' ':'`
