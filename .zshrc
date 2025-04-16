@@ -91,6 +91,7 @@ alias l="lsd -l"
 alias ll="lsd -l --git"
 alias la="lsd -l --all --git"
 alias c='clear'
+alias cat='bat'
 alias d='docker'
 alias vi='nvim'
 alias vim='nvim'
