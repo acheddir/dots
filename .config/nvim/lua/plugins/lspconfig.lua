@@ -15,13 +15,13 @@ return {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
         "hrsh7th/cmp-nvim-lsp",
-        "smiteshp/nvim-navic",
-        "OmniSharp/omnisharp-vim",
-        { "Hoffs/omnisharp-extended-lsp.nvim", lazy = true },
     },
     config = function()
         local mason_registry = require("mason-registry")
         require("lspconfig.ui.windows").default_options.border = "rounded"
+
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
         -- Diagnostics
         vim.diagnostic.config({
@@ -33,6 +33,36 @@ return {
                 prefix = "●",
             },
         })
+
+        vim.api.nvim_create_autocmd("FileType", {
+            once = true,
+            group = vim.api.nvim_augroup("DropBarSetup", {}),
+            callback = function()
+                if vim.g.loaded_dropbar then
+                    return
+                end
+                require("dropbar").setup()
+            end,
+        })
+
+        -- Run setup for no_config_servers
+        local no_config_servers = {
+            "cssls",
+            "docker_compose_language_service",
+            "dockerls",
+            "html",
+            "jsonls",
+            "lua_ls",
+            "tailwindcss",
+            "taplo",
+            "ts_ls",
+            "templ", -- requires gopls in PATH, mason probably won't work depending on the OS
+            "nil_ls",
+            "yamlls",
+        }
+        for _, server in pairs(no_config_servers) do
+            require("lspconfig")[server].setup({})
+        end
 
         require("lspconfig").clangd.setup({
             cmd = { "clangd", "--clang-tidy", "-j=5" },
@@ -62,27 +92,13 @@ return {
             end,
         })
 
-        -- Run setup for no_config_servers
-        local no_config_servers = {
-            "cssls",
-            "docker_compose_language_service",
-            "dockerls",
-            "html",
-            "jsonls",
-            "lua_ls",
-            "tailwindcss",
-            "taplo",
-            "ts_ls",
-            "templ", -- requires gopls in PATH, mason probably won't work depending on the OS
-            "nil_ls",
-            "yamlls",
-        }
-        for _, server in pairs(no_config_servers) do
-            require("lspconfig")[server].setup({})
-        end
+        require("lspconfig").pyright.setup({
+            capabilities = capabilities,
+        })
 
         -- Go
         require("lspconfig").gopls.setup({
+            capabilities = capabilities,
             settings = {
                 gopls = {
                     completeUnimported = true,
@@ -92,14 +108,6 @@ return {
                     staticcheck = true,
                 },
             },
-        })
-
-        -- Omnisharp
-        require("lspconfig").omnisharp.setup({
-            cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
-            enable_roslyn_analyzers = true,
-            organize_imports_on_format = true,
-            enable_import_completion = true,
         })
 
         -- Bicep

@@ -66,7 +66,7 @@ return {
                     previewer = false,
                     mappings = {
                         i = {
-                            ["<c-d>"] = "delete_buffer",
+                            ["<c-d>"] = require("telescope.actions").delete_buffer,
                         },
                     },
                 },

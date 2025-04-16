@@ -112,21 +112,37 @@ export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-eval "$(goenv init -)"
 
 # go
-export GOPATH=$HOME/.go
-export PATH=$PATH:$GOPATH/bin
+# export GOPATH=$HOME/.go
+# export PATH=$PATH:$GOPATH/bin
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+export PATH="$GOENV_ROOT/shims:$PATH" 
 
 export GPG_TTY=$(tty)
 eval "$(ssh-agent -s)" > /dev/null 2>&1
-ssh-add ~/.ssh/github_com_ed25519 > /dev/null 2>&1
+ssh-add ~/.ssh/github_id_ed25519 > /dev/null 2>&1
+ssh-add ~/.ssh/azure_devops_rsa> /dev/null 2>&1
 
 . "/home/acheddir/.deno/env"
-
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
 
 # Exclude /mnt/c executables from PATH
-export PATH=`echo $PATH | tr ':' '\n' | awk '($0!~/mnt\/c/) {print} ' | tr '\n' ':'`
+# export PATH=`echo $PATH | tr ':' '\n' | awk '($0!~/mnt\/c/) {print} ' | tr '\n' ':'`
+
+# pnpm
+export PNPM_HOME="/home/acheddir/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+

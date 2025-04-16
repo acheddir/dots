@@ -1,10 +1,14 @@
 [user]
 	name = Abderrahman Cheddir
 	email = acheddir@outlook.fr
-	signingkey = 0AD9FA2FA26C9D8E
+	signingkey = 7498CB143BA8FB72
 [init]
 	defaultBranch = main
 [color]
 	ui = auto
 [commit]
 	gpgsign = true
+[tag]
+	gpgsign = true
+[core]
+	editor = nvim
