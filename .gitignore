@@ -1,0 +1,11 @@
+*.*
+!.config/bat
+!.config/lazygit
+!.config/neofetch
+!.config/nvim
+!.config/ohmyposh
+!.gitconfig
+!.gitignore
+!.p10k.zsh
+!.tmux.conf
+!.zshrc

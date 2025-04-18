@@ -34,17 +34,6 @@ return {
             },
         })
 
-        vim.api.nvim_create_autocmd("FileType", {
-            once = true,
-            group = vim.api.nvim_augroup("DropBarSetup", {}),
-            callback = function()
-                if vim.g.loaded_dropbar then
-                    return
-                end
-                require("dropbar").setup()
-            end,
-        })
-
         -- Run setup for no_config_servers
         local no_config_servers = {
             "cssls",
